@@ -175,3 +175,83 @@ daqiu.make_cake()
 daqiu.make_master_cake()
 daqiu.make_school_cake
 ```
+
+# 5. 多层继承
+
+# 6. super()调用父类方法
+
+```python
+def make_old_cake(self):
+    # 方法一： 如果定义的类名修改，这里也要修改，麻烦，代码量庞大
+    School.__init__(self)
+    School.make_cake(self)
+    Master.__init__(self)
+    Master.make_cake(self)
+    # 方法二： 
+    ## 带参数 super(当前类名，self).函数()
+    super(Prentice, self).__init__()
+    super(Prentice, self).make_cake()
+    ## 不带参数 super()
+    super().__init__()
+    super().make_cake()
+    
+```
+    注意：使用super()可以自动查找父类。调用顺序遵循`__mro__`类属性的顺序。比较适合单类继承使用。
+
+# 7. 私有权限
+## 7.1 定义私有属性和方法
+在python中，可以为实例属性和方法设置私有属性，即设置某个实例属性或实例方法不继承给子类。
+
+设置私有权限的方法：在属性名和方法名前面加上两个下划线__
+
+```python
+#师父类
+class Master(object):
+    def __init__(self):
+        self.kongfu = ['煎饼果子酱料']
+        self.__money = 1000
+    def make_cake(self):
+        print(f'运用{self.kongfu}制作煎饼果子')
+    def __info_print(self):
+        print(self.kongfu)
+        print(self.__money)
+
+#学校类
+class School(object):
+    def __init__(self):
+        self.kongfu = ['学员班煎饼果子酱料']
+    
+    def make_cake(self):
+        print(f'运用{self.kongfu}制作煎饼果子')
+
+#徒弟类
+class Prentice(School,Master):
+    def __init__(self):
+        self.kongfu = ['自创班煎饼果子酱料']
+    
+    def make_cake(self):
+        print(f'运用{self.kongfu}制作煎饼果子')
+
+daqiu = Prentice()
+print(daqiu.kongfu)
+daqiu.make_cake()
+```
+    注意：私有属性和私有方法只能在类内部访问和修改
+
+## 7.2 获取和修改私有属性
+在Python中，一般定义函数名`get_xx`用来获取私有属性，定义`set_xx`来修改私有属性值。
+
+```python
+class Prentice(School,Master):
+    def __init__(self):
+        self.kongfu = ['自创班煎饼果子酱料']
+        self.__money = 1000
+    
+    def make_cake(self):
+        print(f'运用{self.kongfu}制作煎饼果子')
+    
+    def get_money(self):
+        return self.__money
+    
+    def set_money(self):
+        self.__money = 500
