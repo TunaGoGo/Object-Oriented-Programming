@@ -1,21 +1,22 @@
-class Master(object):
-    def __init__(self):
-        self.kongfu = ['煎饼果子酱料']
+class Dog(object): #父类提供统一方法，哪怕是空方法直接pass
+    def work(self):
+        print("go!")
 
-    def make_cake(self):
-        print(f'运用{self.kongfu}制作煎饼果子')
+class ArmyDog(Dog): #继承Dog类
+    def work(self): #子类重写父类同名方法
+        print("gogo!")
 
-#学校类
-class School(object):
-    def __init__(self):
-        self.kongfu = ['学员班煎饼果子酱料']
-    
-    def make_cake(self):
-        print(f'运用{self.kongfu}制作煎饼果子')
+class DrugDog(Dog):
+    def work(self):
+        print("find drug!")
 
-#徒弟类
-class Prentice(School,Master):
-    pass
+class Person(object):
+    def work_with_dog(self,dog):
+        dog.work()
+        
+ad = ArmyDog()
+dd = DrugDog()
 
-daqiu = Prentice()
-daqiu.make_cake()
+daqiu = Person()
+daqiu.work_with_dog(ad)
+daqiu.work_with_dog(dd)
